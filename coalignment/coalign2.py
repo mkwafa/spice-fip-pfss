@@ -11,7 +11,6 @@ from euispice_coreg.utils.Util import AlignCommonUtil
 from scipy.optimize import minimize
 import warnings
 
-
 USE_DATEAVG_METHOD = True
 # base_folder = folder containing SAFFRON results (produced after running run_saffron)
 base_folder = Path("/home/wmouici/stage/data/saffron_run_results")
@@ -26,8 +25,15 @@ for folder in L3_folders:
 FSI_folder = Path("/archive/SOLAR-ORBITER/EUI/data_internal/L2/")
 FSI_path = []
 
-for i in range(len(L3_path)):
+# === fichier log TXT ===
+log_file = Path("fsi_used_log.txt")
+with open(log_file, "w") as flog:
+    flog.write("# Raster file -> FSI file selected\n")
 
+print("Nombre de fichiers L3 trouvés :", len(L3_path))
+print("Liste des fichiers :", L3_path)
+
+for i in range(len(L3_path)):
     if USE_DATEAVG_METHOD:
         hdul = fits.open(L3_path[i])
         dateavg = np.datetime64(hdul[0].header['DATE-AVG'])
@@ -38,21 +44,37 @@ for i in range(len(L3_path)):
 
         FSI_all_path = []
         FSI_all_path.extend(list(FSI_folder.glob(f"{year}/{month:02d}/{day:02d}/*fsi174-image_{year}{month:02d}{day:02d}T{hour:02d}*")))
-        if hour > 0:  # pour éviter hour-1 = -1
+        if hour > 0:
             FSI_all_path.extend(list(FSI_folder.glob(f"{year}/{month:02d}/{day:02d}/*fsi174-image_{year}{month:02d}{day:02d}T{hour-1:02d}*")))
 
         if len(FSI_all_path) == 0:
             print(f"Aucun fichier FSI trouvé pour {L3_path[i].name} à la date {dateavg}")
             print(f"Chemin cherché : {FSI_folder}/{year}/{month:02d}/{day:02d}/")
-            continue  # passer au raster suivant
+            continue
 
         FSI_all_path = np.array(FSI_all_path, dtype=object)
         FSI_times = np.array([fits.open(path)[1].header['DATE-OBS'] for path in FSI_all_path], dtype='datetime64[ms]')
-        print("FSI_times = ", FSI_times)
-        FSI_path.append(FSI_all_path[np.argmin((FSI_times - dateavg).astype(int)**2)])
-
+        selected_fsi = FSI_all_path[np.argmin((FSI_times - dateavg).astype(int)**2)]
+        FSI_path.append(selected_fsi)
         path_fsi = Path(str(FSI_path[i]))
         path_hri = Path(str(L3_path[i]))
+
+        # write a clearer line into the txt log
+        raster_folder = L3_path[i].parent.name   # the raster directory (unique per raster)
+        raster_file   = L3_path[i].name          # the specific L3 file (e.g., 00706.02-mg_9.fits)
+
+        # (optional) also get FSI DATE-OBS for clarity
+        try:
+            with fits.open(path_fsi) as _h:
+                fsi_dateobs = _h[1].header.get("DATE-OBS", "")
+        except Exception:
+            fsi_dateobs = ""
+
+        with open(log_file, "a") as flog:
+            flog.write(
+                f"{raster_folder} | DATE-AVG={dateavg} -> "
+                f"{path_fsi.name} | DATE-OBS={fsi_dateobs}\n"
+            )
 
     else:
         all_dates = L3_path[i].parent.name[22:37]
@@ -66,10 +88,8 @@ for i in range(len(L3_path)):
         path_fsi = Path(str(FSI_path[i]))
         path_hri = Path(str(L3_path[i]))
 
-
+    # === ton co-alignement reste identique ici ===
     raster_name = path_hri.parent.name
-    # path_save_fig = folder where output images will be saved 
-    # (you can change the name/path to customize the save location)
     path_save_fig = Path(f"./coalign_results/{raster_name}")
     path_save_fits = path_save_fig
     path_save_fig.mkdir(parents=True, exist_ok=True)
