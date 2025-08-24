@@ -9,8 +9,11 @@ This repository provides a pipeline to:
 # Install and Set-up
 
 ### 1) Clone THIS repo
+```bash
 git clone https://github.com/<your-user>/spice-fip-pfss.git
 cd spice-fip-pfss
+```
+
 
 ### (optional but recommended) create a fresh env
 python -m venv .venv
