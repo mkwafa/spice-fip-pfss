@@ -51,7 +51,7 @@
     "t_convolution_index"     : 0,
     "____________________COMMENT3": "data storage parameters",
     "save_data"          : true,
-    "data_save_dir"      : "../data/saffron_run_results/",
+    "data_save_dir"      : "./saffron_run_results/",
     "___________COMMENT4": "use ::SAMENAME to replace the placeholder, ::SAMENAMEL2.5 is to change L2 to L2.5 by the name of the fits input file or ::CONV to replace by the convolution level(s) with - as separator or ::TIME to replace it by fitting start time ::TCONV for the time convolution value", 
     "data_filename"      : "::SAMENAMEL2.5_::CONV::TCONV/::PARAMPLACEHOLDER.fits",
     

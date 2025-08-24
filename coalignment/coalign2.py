@@ -13,7 +13,7 @@ import warnings
 
 USE_DATEAVG_METHOD = True
 # base_folder = folder containing SAFFRON results (produced after running run_saffron)
-base_folder = Path("/home/wmouici/stage/data/saffron_run_results")
+base_folder = Path("../run_saffron/saffron_run_results")
 
 L3_folders = [p for p in base_folder.glob("*_0600") if p.is_dir()]
 
