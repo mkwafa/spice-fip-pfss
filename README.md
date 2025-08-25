@@ -138,9 +138,9 @@ pip install pfsspy
 
 3. Run the cells to:
 
-* visualize radiance/FIP maps,
-* do the reprojection using the FSI file provided in `analyse_2103/`,
-* load the GONG synoptic map (also in `analyse_2103/`) and perform the PFSS extrapolation.
+* visualize radiance, FIP and Doppler maps,
+* do the reprojection using the same FSI file identified during the co-alignment step (see `coalignment/fsi_used_log.txt`); a copy of this FSI file is available in the corresponding analyse_.../ folder
+* load the GONG synoptic map (also in `analyse_.../`) and perform the PFSS extrapolation.
 
 ---
 
