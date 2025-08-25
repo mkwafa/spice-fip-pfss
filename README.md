@@ -25,29 +25,17 @@ python -m venv .venv
 source .venv/bin/activate  # on Windows: .venv\Scripts\activate
 ```
 
-### 3) Base Python packages
+### 3) Install the dependencies
 
+* Requirements : 
 ```bash
-pip install numpy scipy astropy sunpy pfsspy matplotlib shapely
+pip install -r requirements.txt
 ```
+* CHIANTI data-base
 
-### 4) Clone & install SAFFRON (follow their README)
+Inside the terminal run the command ``` setup-chianti``` then follow instructions to download extract and set the variable parameter (XUVTOP)
 
-```bash
-git clone https://github.com/slimguat/saffron-spice
-```
-
-*(install inside its own instructions, then come back here)*
-
-### 5) Clone & install EUI–SPICE co-registration (follow their README)
-
-```bash
-git clone https://github.com/adolliou/euispice_coreg
-```
-
-*(install inside its own instructions, then come back here)*
-
-### 6) (Optional) Install spice-line-fits if you need Doppler fits
+### 4 (Optional) Install spice-line-fits if you need Doppler fits
 
 ```bash
 git clone https://github.com/jeplowman/spice-line-fits
