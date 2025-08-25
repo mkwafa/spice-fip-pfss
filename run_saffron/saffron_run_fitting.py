@@ -6,9 +6,9 @@ from fitting_saffron_correction import *
 # get_input_template(where='./input.json')
 
 # Paths to SPICE FITS files
-path_list_TS = [
-    r"/archive/SOLAR-ORBITER/SPICE/fits/level2/2025/04/06/solo_L2_spice-n-sit_20250406T005822_V01_318767310-000.fits"
-]
+# path_list_TS = [
+#     r"/archive/SOLAR-ORBITER/SPICE/fits/level2/2025/04/06/solo_L2_spice-n-sit_20250406T005822_V01_318767310-000.fits"
+# ]
 
 path_list_Compo = [
     r"/archive/SOLAR-ORBITER/SPICE/fits/level2/2025/03/21/solo_L2_spice-n-ras_20250321T040142_V04_318767203-000.fits",
@@ -20,7 +20,7 @@ path_list_Compo = [
     r"/archive/SOLAR-ORBITER/SPICE/fits/level2/2023/10/12/solo_L2_spice-n-ras_20231012T034900_V22_218104076-000.fits",
 ]
 
-print(f"Found {len(path_list_Compo+path_list_TS)} raster files.")
+# print(f"Found {len(path_list_Compo+path_list_TS)} raster files.")
 
 # conv = spatial convolution (smoothing in x/y)
 for conv in [6]:

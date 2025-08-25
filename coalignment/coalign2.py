@@ -13,6 +13,17 @@ import warnings
 
 USE_DATEAVG_METHOD = True
 # base_folder = folder containing SAFFRON results (produced after running run_saffron)
+
+def get_fsi_root(year: int) -> Path:
+    """Retourne le bon dossier FSI selon l'année."""
+    if year in (2022, 2023):
+        return Path("/archive/SOLAR-ORBITER/EUI/releases/202301_release_6.0/L2")
+    elif year in (2024,2025):
+        return Path("/archive/SOLAR-ORBITER/EUI/data_internal/L2")
+    else:
+        raise ValueError(f"Année non gérée : {year}")
+    
+
 base_folder = Path("../run_saffron/saffron_run_results")
 
 L3_folders = [p for p in base_folder.glob("*_0600") if p.is_dir()]
@@ -22,7 +33,6 @@ for folder in L3_folders:
     L3_path.extend(folder.glob("*706.02*"))
 
 # FSI_folder = folder containing EUI/FSI input data (must be available to the user)
-FSI_folder = Path("/archive/SOLAR-ORBITER/EUI/data_internal/L2/")
 FSI_path = []
 
 # === fichier log TXT ===
@@ -42,10 +52,17 @@ for i in range(len(L3_path)):
         day = dateavg.astype(object).day
         hour = dateavg.astype(object).hour
 
+        # === choisir le bon dossier ici selon l'année ===
+        FSI_folder = get_fsi_root(year)
+
         FSI_all_path = []
-        FSI_all_path.extend(list(FSI_folder.glob(f"{year}/{month:02d}/{day:02d}/*fsi174-image_{year}{month:02d}{day:02d}T{hour:02d}*")))
+        FSI_all_path.extend(list(FSI_folder.glob(
+            f"{year}/{month:02d}/{day:02d}/*fsi174-image_{year}{month:02d}{day:02d}T{hour:02d}*"
+        )))
         if hour > 0:
-            FSI_all_path.extend(list(FSI_folder.glob(f"{year}/{month:02d}/{day:02d}/*fsi174-image_{year}{month:02d}{day:02d}T{hour-1:02d}*")))
+            FSI_all_path.extend(list(FSI_folder.glob(
+                f"{year}/{month:02d}/{day:02d}/*fsi174-image_{year}{month:02d}{day:02d}T{hour-1:02d}*"
+            )))
 
         if len(FSI_all_path) == 0:
             print(f"Aucun fichier FSI trouvé pour {L3_path[i].name} à la date {dateavg}")
