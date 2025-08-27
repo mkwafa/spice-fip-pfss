@@ -14,7 +14,7 @@ This repository provides a pipeline to:
 
 ### 1) Clone THIS repo
 ```bash
-git clone https://github.com/<your-user>/spice-fip-pfss.git
+git clone https://github.com/mkwafa/spice-fip-pfss.git
 cd spice-fip-pfss
 ````
 
@@ -72,7 +72,7 @@ run_saffron/saffron_run_results/
 python coalignment/coalign2.py
 ```
 
-This will produce a small text log (e.g., `fsi_used_log.txt`) that lists the FSI file used for each raster.
+This will produce a small text log (e.g., `fsi_used_log.txt`) that lists the FSI file used for each raster. The corresponding FSI file is also stored in the respective analysis folder `analysis/analyse_*`
 
 3. Update the CRVALs in the SAFFRON outputs:
 
